@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Fusion Fit - Conoce a nuestros entrenadores profesionales" />
+  <title>Fusion Fit - Entrenadores</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+          <div class="logo">
+            <img src="IMG-20241231-WA0042.png" alt="Fusion Fit Logo" />
+          </div>
+          <ul class="nav-links center">
+            <li><a href="index.html" class="active">Inicio</a></li>
+            <li><a href="entrenadores.html">Entrenadores</a></li>
+            <li><a href="#" id="contact-link">Contacto</a></li>
+            <li><a href="carrito.html">Carrito</a></li>
+          </ul>
+        </nav>
+      </header>
+    
+
+  <section class="trainers-section">
+    <h2 class="trainers-title">Conoce a Nuestros Entrenadores</h2>
+    <div class="trainers-container">
+      <div class="trainer-card">
+        <img src="trainer1.jpg" alt="Ivan" class="trainer-photo" />
+        <h3>Ivan</h3>
+        <p><strong>Especialidad:</strong> Entrenamiento de fuerza</p>
+        <p><strong>Experiencia:</strong> 10 años</p>
+        <p>Ayuda a sus clientes a construir fuerza y confianza con rutinas personalizadas.</p>
+      </div>
+
+      <div class="trainer-card">
+        <img src="trainer3.jpg" alt="Carlos" class="trainer-photo" />
+        <h3>Carlos</h3>
+        <p><strong>Especialidad:</strong> Nutrición y bienestar</p>
+        <p><strong>Experiencia:</strong> 7 años</p>
+        <p>Combina nutrición y entrenamiento para resultados duraderos y saludables.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p>&copy; 2025 Fusion Fit. Diseñado con ❤️ por Fusion Dev Team.</p>
+    </div>
+  </footer>
+
+  <style>
+    .trainers-section {
+      padding: 2rem;
+      background-color: #1a1a1a;
+      color: #fff;
+      border-top: 4px solid #ff4500;
+    }
+
+    .trainers-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: #ff4500;
+    }
+
+    .trainers-container {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .trainer-card {
+      background-color: #292929;
+      padding: 1.5rem;
+      border-radius: 10px;
+      width: 300px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .trainer-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    }
+
+    .trainer-photo {
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+    }
+
+    .trainer-card h3 {
+      color: #ff4500;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-content {
+      text-align: center;
+      padding: 1rem;
+      background-color: #000;
+      color: #fff;
+    }
+  </style>
+</body>
+</html>

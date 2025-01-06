@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Fusion Fit - Proceso de Pago">
+  <title>Fusion Fit - Pago</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://js.stripe.com/v3/"></script> <!-- Stripe.js -->
+</head>
+<body>
+  <header class="header">
+    <nav class="navbar">
+      <div class="logo">
+        <img src="IMG-20241231-WA0042.png" alt="Fusion Fit Logo">
+      </div>
+      <ul class="nav-links center">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="entrenadores.html">Entrenadores</a></li>
+        <li><a href="#" id="contact-link">Contacto</a></li>
+        <li><a href="carrito.html">Carrito</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="payment-section">
+    <div class="payment-container">
+      <h2 class="payment-title">Proceso de Pago</h2>
+      <p class="payment-description">Revisa tu carrito y completa el pago para finalizar tu compra.</p>
+
+      <!-- Resumen del carrito -->
+      <div id="cart-summary" class="cart-summary"></div>
+
+      <!-- Botón para confirmar el pago -->
+      <button id="checkout-button" class="btn-primario">Confirmar Pago</button>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p>&copy; 2025 Fusion Fit. Diseñado con ❤️ por Fusion Dev Team.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Inicializar Stripe con tu clave pública
+    const stripe = Stripe('pk_test_tuClavePublicaAqui'); // Sustituye 'pk_test_tuClavePublicaAqui' con tu clave pública
+
+    // Cargar el carrito desde localStorage
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartSummary = document.getElementById('cart-summary');
+
+    // Renderizar el contenido del carrito
+    function renderCartSummary() {
+      if (cart.length === 0) {
+        cartSummary.innerHTML = '<p class="empty-cart">Tu carrito está vacío.</p>';
+      } else {
+        let total = 0;
+        cartSummary.innerHTML = `
+          <table class="cart-table">
+            <thead>
+              <tr>
+                <th>Plan</th>
+                <th>Precio</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${cart
+                .map(
+                  item => `
+                <tr>
+                  <td>${item.name}</td>
+                  <td>${item.price}€</td>
+                </tr>`
+                )
+                .join('')}
+            </tbody>
+          </table>
+        `;
+        total = cart.reduce((sum, item) => sum + item.price, 0);
+        cartSummary.innerHTML += `<p class="total-amount"><strong>Total a pagar:</strong> ${total}€</p>`;
+      }
+    }
+
+    // Manejar clic en el botón de pago
+    document.getElementById('checkout-button').addEventListener('click', () => {
+      fetch('/crear-sesion', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          items: cart, // Enviar los datos del carrito
+        }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.id) {
+            // Redirigir a Stripe Checkout
+            stripe.redirectToCheckout({ sessionId: data.id });
+          } else {
+            alert('Error al iniciar el proceso de pago.');
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+
+    // Renderizar el carrito al cargar la página
+    renderCartSummary();
+  </script>
+
+  <style>
+    /* Tus estilos generales se mantienen igual */
+    /* Estilos generales */
+body {
+  font-family: 'Roboto', sans-serif;
+  color: #fff;
+  background-color: #1a1a1a;
+  margin: 0;
+}
+
+.payment-section {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.payment-container {
+  background-color: #292929;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.payment-title {
+  text-align: center;
+  color: #ff4500;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.payment-description {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #ccc;
+}
+
+.cart-summary {
+  margin-bottom: 2rem;
+}
+
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.cart-table th, .cart-table td {
+  padding: 0.8rem;
+  text-align: left;
+  border-bottom: 1px solid #444;
+}
+
+.cart-table th {
+  background-color: #333;
+  color: #fff;
+}
+
+.total-amount {
+  text-align: right;
+  font-size: 1.2rem;
+  color: #ff4500;
+}
+
+.empty-cart {
+  text-align: center;
+  color: #aaa;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #ccc;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 5px;
+  border: none;
+  font-size: 1rem;
+  background-color: #444;
+  color: #fff;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-primario {
+  background-color: #ff4500;
+  color: #fff;
+  padding: 1rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 1rem;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-primario:hover {
+  background-color: #ff6347;
+  transform: scale(1.05);
+}
+  </style>
+</body>
+</html>
+
